@@ -16,8 +16,13 @@ const getAllUsers = async (req, res) => {
 const createNewUser = async (req, res) => {
   try {
     if (!req.file) {
+      console.log(req);
       return res.status(400).json({ message: "No file uploaded" });
     }
+    if (req.body.password !== req.body.confPassword)
+      return res
+        .status(400)
+        .json({ msg: "Password dan Confirm Password tidak cocok" });
 
     const userData = {
       name: req.body.name,
@@ -28,9 +33,9 @@ const createNewUser = async (req, res) => {
       alamat: req.body.alamat,
       role: req.body.role,
     };
-
-    const hashedPassword = await bcrypt.hash(userData.password, 10);
-    userData.password = hashedPassword;
+    const salt = await bcrypt.genSalt();
+    const hashPassword = await bcrypt.hash(req.body.password, salt);
+    userData.password = hashPassword;
 
     const newUser = await User.create(userData);
 

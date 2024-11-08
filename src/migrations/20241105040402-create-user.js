@@ -27,6 +27,13 @@ module.exports = {
       role: {
         type: Sequelize.STRING,
       },
+      foto: {
+        type: Sequelize.STRING,
+        allowNull: true,
+      },
+      refreshToken: {
+        type: Sequelize.TEXT,
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,

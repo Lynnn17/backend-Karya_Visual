@@ -1,8 +1,8 @@
 const express = require("express");
 const router = express.Router();
-const upload = require("../middleware/uploadMiddleware");
-const verifyToken = require("../middleware/authMiddleware");
-const UsersController = require("../controllers/users.js");
+const upload = require("../middleware/uploadMiddleware.js");
+const verifyToken = require("../middleware/authMiddleware.js");
+const UsersController = require("../controllers/userControllers.js");
 
 router.get("/", verifyToken, UsersController.getAllUsers);
 
