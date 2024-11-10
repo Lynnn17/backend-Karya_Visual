@@ -1,4 +1,3 @@
-// controllers/authController.js
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const dotenv = require("dotenv");
@@ -8,7 +7,7 @@ dotenv.config();
 
 const login = async (req, res) => {
   try {
-    console.log(req.body.email);
+    console.log("email", req.body.email);
     const user = await Users.findAll({ where: { email: req.body.email } });
     if (!user[0]) return res.status(404).json({ msg: "Email tidak ditemukan" });
 

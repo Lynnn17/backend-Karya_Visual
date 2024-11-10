@@ -3,23 +3,30 @@ const express = require("express");
 const app = express();
 const port = process.env.PORT || 5000;
 const cors = require("cors");
+const swaggerUi = require("swagger-ui-express");
+const swaggerDocs = require("./config/swaggerConfig");
+
 const usersRoutes = require("./routes/userRoute.js");
-const middleware = require("./middleware/logs.js");
 const authRoutes = require("./routes/authRoute.js");
-const cookieParser = require("cookie-parser");
-const upload = require("./middleware/uploadMiddleware");
-const { createNewUser } = require("./controllers/userControllers.js");
+const middleware = require("./middleware/logs.js");
 
 require("./routes/transaksiRoute.js")(app);
 
 app.use(middleware);
-app.use(cookieParser());
-app.use(cors());
+app.use(
+  cors({
+    origin: "http://localhost:4000", // Ganti dengan domain aplikasi frontend Anda
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    credentials: true, // Membolehkan cookies dikirim
+  })
+);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.post("/register", upload.single("foto"), createNewUser);
+// Swagger Documentation
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
+// Routes
 app.use("/users", usersRoutes);
 app.use("/auth", authRoutes);
 
