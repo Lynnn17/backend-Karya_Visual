@@ -1,29 +1,30 @@
-module.exports = (sequelize, Sequelize) => {
-  const Transaksi = sequelize.define(
-    "tb_transaksi",
+"use strict";
+const { Model } = require("sequelize");
+
+module.exports = (sequelize, DataTypes) => {
+  class Transaksi extends Model {
+    static associate(models) {
+      // Define association here if needed
+    }
+  }
+
+  Transaksi.init(
     {
-      id: {
-        type: Sequelize.BIGINT,
-        primaryKey: true,
-        autoIncrement: true,
-      },
-      order_id: {
-        type: Sequelize.STRING,
-      },
-      nama: {
-        type: Sequelize.STRING,
-      },
+      order_id: DataTypes.STRING,
+      nama: DataTypes.STRING,
+      transaction_status: DataTypes.STRING,
       response_midtrans: {
-        type: Sequelize.TEXT("long"),
-      },
-      transaction_status: {
-        type: Sequelize.STRING,
+        type: DataTypes.TEXT("long"), // Long text data
+        // Optional, based on your needs
       },
     },
     {
-      freezeTableName: true,
-      timestamps: false,
+      sequelize,
+      modelName: "Transaksi", // Correct model name
+      tableName: "tb_transaksi",
+      timestamps: true,
     }
   );
-  return Transaksi;
+
+  return Transaksi; // Return the correct model
 };
