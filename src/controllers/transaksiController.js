@@ -1,9 +1,39 @@
+const Joi = require("joi");
 const db = require("../models");
 const Transaksi = db.Transaksi;
 const { snap } = require("../config/apiMidtrans.config.js");
 
 const checkout = async (req, res) => {
   try {
+    const schema = Joi.object({
+      order_id: Joi.string().required().messages({
+        "string.empty": "Order ID is required.",
+        "any.required": "Order ID is required.",
+      }),
+      productName: Joi.string().required().messages({
+        "string.empty": "Product name is required.",
+        "any.required": "Product name is required.",
+      }),
+      price: Joi.number().positive().required().messages({
+        "number.base": "Price must be a number.",
+        "number.positive": "Price must be greater than zero.",
+        "any.required": "Price is required.",
+      }),
+      quantity: Joi.number().integer().positive().required().messages({
+        "number.base": "Quantity must be a number.",
+        "number.integer": "Quantity must be an integer.",
+        "number.positive": "Quantity must be greater than zero.",
+        "any.required": "Quantity is required.",
+      }),
+    });
+
+    const { error } = schema.validate(req.body, { abortEarly: false });
+    if (error) {
+      return res.status(400).json({
+        message: "Validation error",
+        details: error.details.map((detail) => detail.message),
+      });
+    }
     const { order_id, productName, price, quantity } = req.body;
 
     if (!order_id || !productName || !price || !quantity) {
@@ -56,6 +86,36 @@ const checkout = async (req, res) => {
 
 const notification = async (req, res) => {
   try {
+    const schema = Joi.object({
+      order_id: Joi.string().required().messages({
+        "string.empty": "Order ID is required.",
+        "any.required": "Order ID is required.",
+      }),
+      productName: Joi.string().required().messages({
+        "string.empty": "Product name is required.",
+        "any.required": "Product name is required.",
+      }),
+      price: Joi.number().positive().required().messages({
+        "number.base": "Price must be a number.",
+        "number.positive": "Price must be greater than zero.",
+        "any.required": "Price is required.",
+      }),
+      quantity: Joi.number().integer().positive().required().messages({
+        "number.base": "Quantity must be a number.",
+        "number.integer": "Quantity must be an integer.",
+        "number.positive": "Quantity must be greater than zero.",
+        "any.required": "Quantity is required.",
+      }),
+    });
+
+    const { error } = schema.validate(req.body, { abortEarly: false });
+    if (error) {
+      return res.status(400).json({
+        message: "Validation error",
+        details: error.details.map((detail) => detail.message),
+      });
+    }
+
     const { order_id, transaction_status } = req.query;
 
     if (!order_id || !transaction_status) {

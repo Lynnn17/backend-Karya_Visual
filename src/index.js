@@ -9,6 +9,7 @@ const swaggerDocs = require("./config/swaggerConfig");
 const usersRoutes = require("./routes/userRoute.js");
 const authRoutes = require("./routes/authRoute.js");
 const transaksiRoutes = require("./routes/transaksiRoute.js");
+const blogRoutes = require("./routes/blogRoute.js");
 const middleware = require("./middleware/logs.js");
 
 app.use(middleware);
@@ -29,6 +30,7 @@ app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 app.use("/users", usersRoutes);
 app.use("/auth", authRoutes);
 app.use("/transaksi", transaksiRoutes);
+app.use("/blog", blogRoutes);
 
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`);
