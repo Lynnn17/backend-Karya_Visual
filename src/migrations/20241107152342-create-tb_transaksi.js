@@ -2,10 +2,9 @@
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable("tb_transaksi", {
+    await queryInterface.createTable("transactions", {
       id: {
-        type: Sequelize.INTEGER,
-        autoIncrement: true,
+        type: Sequelize.STRING,
         primaryKey: true,
         allowNull: false,
       },
@@ -14,7 +13,7 @@ module.exports = {
         allowNull: false,
         comment: "Order ID dari midtrans",
       },
-      nama: {
+      name: {
         type: Sequelize.STRING,
         allowNull: false,
         comment: "Nama pelanggan",
@@ -43,6 +42,6 @@ module.exports = {
   },
 
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable("tb_transaksi");
+    await queryInterface.dropTable("transactions");
   },
 };

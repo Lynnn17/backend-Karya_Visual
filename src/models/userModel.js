@@ -1,28 +1,54 @@
-"use strict";
-const { Model } = require("sequelize");
+import { Model } from "sequelize";
 
-module.exports = (sequelize, DataTypes) => {
+export default (sequelize, DataTypes) => {
   class User extends Model {
     static associate(models) {
       // define association here
+      // Contoh: User.hasMany(models.Post);
     }
   }
 
   User.init(
     {
-      name: DataTypes.STRING,
-      email: DataTypes.STRING,
-      nohp: DataTypes.STRING,
-      alamat: DataTypes.STRING,
-      password: DataTypes.STRING,
-      role: DataTypes.STRING,
-      foto: DataTypes.STRING,
-      refresh_token: DataTypes.TEXT,
+      name: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      email: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        unique: true,
+      },
+      contact: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      address: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      password: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      role: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        defaultValue: "user", // Contoh default value
+      },
+      photo: {
+        type: DataTypes.STRING,
+        allowNull: true,
+      },
+      refresh_token: {
+        type: DataTypes.TEXT,
+        allowNull: true,
+      },
     },
     {
       sequelize,
       modelName: "User",
-      tableName: "tb_user",
+      tableName: "users",
       timestamps: true,
     }
   );

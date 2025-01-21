@@ -1,0 +1,2 @@
+link database
+https://hpanel.hostinger.com/redirect/karyavisual.com?l=phpMyAdmin&db_name=u158507653_development&domain=karyavisual.com&subdomain=

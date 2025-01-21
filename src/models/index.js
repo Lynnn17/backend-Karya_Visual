@@ -1,39 +1,28 @@
-// models/index.js
-"use strict";
+import { readdirSync } from "fs";
+import { basename, dirname } from "path";
+import { Sequelize, DataTypes } from "sequelize";
+import { fileURLToPath } from "url";
+import database from "../config/config.js";
 
-const fs = require("fs");
-const path = require("path");
-const Sequelize = require("sequelize");
-const basename = path.basename(__filename);
-const env = process.env.NODE_ENV || "development";
-const config = require(__dirname + "/../config/config.js")[env];
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
 const db = {};
+const sequelize = new Sequelize(database.development);
 
-let sequelize;
-if (config.use_env_variable) {
-  sequelize = new Sequelize(process.env[config.use_env_variable], config);
-} else {
-  sequelize = new Sequelize(
-    config.database,
-    config.username,
-    config.password,
-    config
-  );
+// Inisialisasi model
+const files = readdirSync(__dirname).filter(
+  (file) =>
+    file.indexOf(".") !== 0 &&
+    file !== basename(__filename) &&
+    file.slice(-3) === ".js"
+);
+
+for (const file of files) {
+  const model = await import(`./${file}`);
+  const namedModel = model.default(sequelize, DataTypes);
+  db[namedModel.name] = namedModel;
 }
-
-fs.readdirSync(__dirname)
-  .filter((file) => {
-    return (
-      file.indexOf(".") !== 0 && file !== basename && file.slice(-3) === ".js"
-    );
-  })
-  .forEach((file) => {
-    const model = require(path.join(__dirname, file))(
-      sequelize,
-      Sequelize.DataTypes
-    );
-    db[model.name] = model; // Pastikan model terdaftar di db
-  });
 
 Object.keys(db).forEach((modelName) => {
   if (db[modelName].associate) {
@@ -44,4 +33,5 @@ Object.keys(db).forEach((modelName) => {
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
 
-module.exports = db;
+// Ekspor db yang sudah diinisialisasi
+export default db;

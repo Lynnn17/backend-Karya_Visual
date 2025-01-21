@@ -1,0 +1,35 @@
+import jwt from "jsonwebtoken";
+import dotenv from "dotenv";
+
+dotenv.config();
+
+const TokenManager = {
+  generateAccessToken: (payload) => {
+    return jwt.sign(
+      { id: payload.id, role: payload.role, company: payload.company },
+      process.env.JWT_ACCESS_TOKEN_KEY,
+      {
+        algorithm: "HS256",
+        expiresIn: 60 * 60 * 12, // sehari
+      }
+    );
+  },
+  generateRefreshToken: (payload) => {
+    return jwt.sign(
+      { id: payload.id, role: payload.role, company: payload.company },
+      process.env.JWT_REFRESH_TOKEN_KEY,
+      {
+        algorithm: "HS256",
+        expiresIn: 60 * 60 * 24 * 7, // seminggu
+      }
+    );
+  },
+  verifyAccessToken: (access_token) => {
+    return jwt.verify(access_token, process.env.JWT_ACCESS_TOKEN_KEY);
+  },
+  verifyRefreshToken: (refresh_token) => {
+    return jwt.verify(refresh_token, process.env.JWT_REFRESH_TOKEN_KEY);
+  },
+};
+
+export default TokenManager;

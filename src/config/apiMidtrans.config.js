@@ -1,6 +1,7 @@
-require("dotenv").config(); // Pastikan dotenv dipanggil untuk memuat variabel lingkungan
+import dotenv from "dotenv";
+import midtransClient from "midtrans-client";
 
-const midtransClient = require("midtrans-client");
+dotenv.config();
 
 let snap = new midtransClient.Snap({
   isProduction: false,
@@ -8,4 +9,4 @@ let snap = new midtransClient.Snap({
   clientKey: process.env.MIDTRANS_CLIENT_KEY,
 });
 
-module.exports = { snap };
+export { snap };

@@ -1,6 +1,13 @@
-require("dotenv").config();
-const path = require("path");
-const swaggerJsDoc = require("swagger-jsdoc");
+import dotenv from "dotenv";
+import path from "path";
+import swaggerJsDoc from "swagger-jsdoc";
+import { fileURLToPath } from "url";
+
+// Mendapatkan __dirname di dalam ES Module
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+dotenv.config();
 
 const swaggerOptions = {
   swaggerDefinition: {
@@ -31,8 +38,8 @@ const swaggerOptions = {
       },
     ],
   },
-  apis: [path.join(__dirname, "../routes/*.js")],
+  apis: [path.join(__dirname, "../docs/*.js")],
 };
 
 const swaggerDocs = swaggerJsDoc(swaggerOptions);
-module.exports = swaggerDocs;
+export default swaggerDocs;

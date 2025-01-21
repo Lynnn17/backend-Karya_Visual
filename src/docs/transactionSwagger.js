@@ -1,16 +1,18 @@
-const express = require("express");
-const router = express.Router();
-const {
-  checkout,
-  notification,
-} = require("../controllers/transaksiController.js");
+/**
+ * @swagger
+ * tags:
+ *   - name: Transactions
+ *     description: API untuk mengelola transaksi
+ */
 
 /**
  * @swagger
- * /transaksi/checkout:
+ * /transactions/checkout:
  *   post:
  *     summary: "Create a new transaction"
  *     description: "Create a transaction using the Midtrans API"
+ *     tags:
+ *       - Transactions
  *     requestBody:
  *       required: true
  *       content:
@@ -59,32 +61,51 @@ const {
  *                       type: string
  *                     gross_amount:
  *                       type: number
+ *                       description: "Total amount for the transaction"
  *       400:
  *         description: "Bad request"
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: "Invalid request parameters"
  *       500:
  *         description: "Internal server error"
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: "An unexpected error occurred"
  */
-router.post("/checkout", checkout);
 
 /**
  * @swagger
- * /transaksi/notification:
- *   get:
+ * /transactions/notification:
+ *   post:
  *     summary: "Receive payment status notifications"
  *     description: "Handle the payment status notification from Midtrans"
- *     parameters:
- *       - in: query
- *         name: order_id
- *         required: true
- *         schema:
- *           type: string
- *         description: "Order ID for the transaction"
- *       - in: query
- *         name: transaction_status
- *         required: true
- *         schema:
- *           type: string
- *         description: "Transaction status (pending, success, failure, etc.)"
+ *     tags:
+ *       - Transactions
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               order_id:
+ *                 type: string
+ *                 description: "Order ID for the transaction"
+ *               transaction_status:
+ *                 type: string
+ *                 enum: [pending, success, failure, settlement, cancel, expire]
+ *                 description: "Transaction status"
  *     responses:
  *       200:
  *         description: "Transaction status updated successfully"
@@ -105,11 +126,24 @@ router.post("/checkout", checkout);
  *                       type: string
  *       400:
  *         description: "Missing or invalid parameters"
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: "Invalid request parameters"
  *       404:
  *         description: "Transaction not found"
  *       500:
  *         description: "Internal server error"
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: "An unexpected error occurred"
  */
-router.get("/notification", notification);
-
-module.exports = router;

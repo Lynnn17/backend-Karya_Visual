@@ -13,27 +13,25 @@ module.exports = {
       "users",
       [
         {
+          id: "user-9b26face-079a-4ec0-b67b-b309beb9c230",
           name: "John Doe",
           email: "johndoe@example.com",
-          nohp: 1234567890,
-          alamat: "123 Main St",
+          contact: 1234567890,
+          address: "123 Main St",
           password:
-            "$2a$12$bujVnCONAGUUR1PWRLeR7u5HsPWAupAFjwyNGQli7Hg0mPPvguX/6",
+            "$2a$12$PaOvRyLiGJDuCyfWrgM2g.JsUqK/r6JF70s6o0ePWaaJlmZ5VOrMG",
           role: "user",
-          createdAt: new Date(),
-          updatedAt: new Date(),
         },
         {
+          id: "user-77ce49ca-33fb-484e-a563-f50008b22301",
           name: "Jane Smith",
           email: "lyn@gmail.com",
-          nohp: 9876543210,
-          alamat: "456 Elm St",
+          contact: 9876543210,
+          address: "456 Elm St",
           password:
-            "A665A45920422F9D417E4867EFDC4FB8A04A1F3FFF1FA07E998E86F7F7A27AE3", // Gantilah dengan password yang sudah di-hash
+            "$2a$12$PaOvRyLiGJDuCyfWrgM2g.JsUqK/r6JF70s6o0ePWaaJlmZ5VOrMG", // Gantilah dengan password yang sudah di-hash
           role: "admin",
           refresh_token: "sdadsadsadsa",
-          createdAt: new Date(),
-          updatedAt: new Date(),
         },
       ],
       {}
@@ -47,6 +45,6 @@ module.exports = {
      * Example:
      *
      */
-    await queryInterface.bulkDelete("Users", null, {});
+    await queryInterface.bulkDelete("users", null, {});
   },
 };
