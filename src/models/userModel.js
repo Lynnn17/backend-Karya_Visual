@@ -34,7 +34,7 @@ export default (sequelize, DataTypes) => {
       role: {
         type: DataTypes.STRING,
         allowNull: false,
-        defaultValue: "user", // Contoh default value
+        defaultValue: "user",
       },
       photo: {
         type: DataTypes.STRING,
